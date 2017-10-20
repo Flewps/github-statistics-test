@@ -1,20 +1,27 @@
-import React from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { gql, graphql } from 'react-apollo';
 
-function List({ data: { items, refetch } }) {
-  console.log( items )
-  return (
-    <ul>
-      {typeof items !== 'undefined' ? items.repositories.map( (item, $key) => {
-        return (<li>{item.name} ({item.pullRequets.totalCount})</li>)
-      }) : (<li>No hay resultados</li>)}
-    </ul>
-  );
+class List extends Component{
+  render(){
+    console.log(this.props)
+    return (
+      <ul>
+        { this.props.data.repositoryOwner ? this.props.data.repositoryOwner.repositories.nodes.map( (item,key) => {
+          return (<li key={key}>{item.name} ({item.pullRequests.totalCount})</li>)
+        } ) : (<li>No hay resultados</li>)}
+      </ul>
+    )
+  }  
 }
 
+List.propTypes = {
+  items: PropTypes.object,
+};
+
 let query = gql`
-  query($username:String!){
-    repositoryOwner(login: username) {
+  query getRepositories($username:String!){
+    repositoryOwner(login: $username) {
       login
       id
       repositories (first: 10) {

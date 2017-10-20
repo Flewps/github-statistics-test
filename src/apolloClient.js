@@ -10,8 +10,7 @@ networkInterface.use([{
     if (!req.options.headers) {
       req.options.headers = {};
     }
-    const token = githubToken // localStorage.getItem('token');
-    req.options.headers.authorization = token ? `Bearer ${token}` : null;
+    req.options.headers.authorization = githubToken ? `Bearer ${githubToken}` : null;
     next();
   }
 }])
