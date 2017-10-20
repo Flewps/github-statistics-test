@@ -24,7 +24,7 @@ let query = gql`
     repositoryOwner(login: $username) {
       login
       id
-      repositories (first: 10) {
+      repositories (first: 100) {
         nodes {
           id
           name
